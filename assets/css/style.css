@@ -2,3 +2,7 @@
 ul {
   list-style: none;
 }
+#selectedList {
+  background-color: #ddd;
+  margin-bottom: 2rem;
+}

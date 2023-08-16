@@ -7,9 +7,14 @@
     </head>
     <body>
         <input id="input" type="text" name="name">
-        <button id="btn">検索</button>
+        <button id="searchBtn">検索</button>
         <p><a href="/create">ユーザーの追加</a></p>
-        <table>
+        <table id="selectedList">
+            <tr>
+                <td>選択された情報一覧</td>
+            </tr>
+        </table>
+        <table id="personasList">
             <% for(let i=0; i < personas.length; i++) { %>
                 <tr>
                     <td>
@@ -18,10 +23,9 @@
                     <td>
                         <%= personas[i].email %>
                     </td>
-                    <td>
-                        <a href="/edit/<%= personas[i].id%>">更新</a>
-                    </td>
+                    <td><a href="/edit/<%= personas[i].id%>">更新</a></td>
                     <td><a href="/delete/<%= personas[i].id%>">削除</a></td>
+                    <td><button>選択</button></td>
                 </tr>
                 <% } %>
         </table>
@@ -30,17 +34,32 @@
             let body = document.querySelector('body');
             body.insertAdjacentHTML('beforeend', `<ul></ul>`);
             let input = document.querySelector('#input');
-            let btn = document.querySelector('#btn');
-            let table = document.querySelector('table');
-            let tr = document.querySelectorAll('tr');
+            let searchBtn = document.querySelector('#searchBtn');
+            let trs1 = document.querySelectorAll('#personasList tr');
+            // 課題01 nameで絞り込み
             function searchName() {
-                for(let i=0; i < personas.length; i++) {
+                for (let i = 0; i < personas.length; i++) {
                     if (personas[i].name.indexOf(input.value) === -1) {
-                        tr[i].remove();
+                        trs1[i].remove();
                     }
                 }
             }
-            btn.addEventListener('click', searchName);
+            searchBtn.addEventListener('click', searchName);
+
+            // 課題02 選択ボタンで格納
+            let selectedList = document.querySelector('#selectedList');
+            for (let i = 0; i < personas.length; i++) {
+                let selectBtn = document.querySelectorAll('button');
+                // let tr = trs1[i];
+                selectBtn[i].addEventListener('click', function () {
+                    selectedList.insertAdjacentHTML('beforeend', `<tr>${trs1[i]}</tr>`);
+                    trs1[i - 1].remove();
+                    console.log(trs1[i]);
+                })
+            }
+
+
+
         </script>
     </body>
 </html>
