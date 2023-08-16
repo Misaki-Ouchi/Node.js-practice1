@@ -10,24 +10,28 @@
         <button id="searchBtn">検索</button>
         <p><a href="/create">ユーザーの追加</a></p>
         <table id="selectedList">
-            <tr>
-                <td>選択された情報一覧</td>
-            </tr>
+            <tbody>
+                <tr>
+                    <td>選択された情報一覧</td>
+                </tr>
+            </tbody>
         </table>
         <table id="personasList">
-            <% for(let i=0; i < personas.length; i++) { %>
-                <tr>
-                    <td>
-                        <%= personas[i].name %>
-                    </td>
-                    <td>
-                        <%= personas[i].email %>
-                    </td>
-                    <td><a href="/edit/<%= personas[i].id%>">更新</a></td>
-                    <td><a href="/delete/<%= personas[i].id%>">削除</a></td>
-                    <td><button>選択</button></td>
-                </tr>
-                <% } %>
+            <tbody>
+                <% for(let i=0; i < personas.length; i++) { %>
+                    <tr>
+                        <td>
+                            <%= personas[i].name %>
+                        </td>
+                        <td>
+                            <%= personas[i].email %>
+                        </td>
+                        <td><a href="/edit/<%= personas[i].id%>">更新</a></td>
+                        <td><a href="/delete/<%= personas[i].id%>">削除</a></td>
+                        <td><button class="selectBtn">選択</button></td>
+                    </tr>
+                    <% } %>
+            </tbody>
         </table>
         <script type="text/javascript">
             let personas = JSON.parse('<%= JSON.stringify(personas) %>'.replace(/&#34;/g, '"'));
@@ -47,14 +51,11 @@
             searchBtn.addEventListener('click', searchName);
 
             // 課題02 選択ボタンで格納
-            let selectedList = document.querySelector('#selectedList');
+            let selectedList = document.querySelector('#selectedList tbody');
             for (let i = 0; i < personas.length; i++) {
-                let selectBtn = document.querySelectorAll('button');
-                // let tr = trs1[i];
+                let selectBtn = document.querySelectorAll('.selectBtn');
                 selectBtn[i].addEventListener('click', function () {
-                    selectedList.insertAdjacentHTML('beforeend', `<tr>${trs1[i]}</tr>`);
-                    trs1[i - 1].remove();
-                    console.log(trs1[i]);
+                    selectedList.insertAdjacentElement('beforeend', trs1[i]);
                 })
             }
 
