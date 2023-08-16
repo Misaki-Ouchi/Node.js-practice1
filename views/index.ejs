@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="ja">
+    <head>
+        <meta charset="UTF-8">
+        <title>User list</title>
+        <link rel="stylesheet" href="css/style.css">
+    </head>
+    <body>
+        <input id="input" type="text" name="name">
+        <button id="btn">検索</button>
+        <p><a href="/create">ユーザーの追加</a></p>
+        <table>
+            <% for(let i=0; i < personas.length; i++) { %>
+                <tr>
+                    <td>
+                        <%= personas[i].name %>
+                    </td>
+                    <td>
+                        <%= personas[i].email %>
+                    </td>
+                    <td>
+                        <a href="/edit/<%= personas[i].id%>">更新</a>
+                    </td>
+                    <td><a href="/delete/<%= personas[i].id%>">削除</a></td>
+                </tr>
+                <% } %>
+        </table>
+        <script type="text/javascript">
+            let personas = JSON.parse('<%= JSON.stringify(personas) %>'.replace(/&#34;/g, '"'));
+            let body = document.querySelector('body');
+            body.insertAdjacentHTML('beforeend', `<ul></ul>`);
+            let input = document.querySelector('#input');
+            let btn = document.querySelector('#btn');
+            let table = document.querySelector('table');
+            let tr = document.querySelectorAll('tr');
+            function searchName() {
+                for(let i=0; i < personas.length; i++) {
+                    if (personas[i].name.indexOf(input.value) === -1) {
+                        tr[i].remove();
+                    }
+                }
+            }
+            btn.addEventListener('click', searchName);
+        </script>
+    </body>
+</html>
