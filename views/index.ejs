@@ -131,15 +131,22 @@
                     { pref: "鹿児島", count: 0 },
                     { pref: "沖縄", count: 0 }
                 ];
+                // newListにpersonas入れる
+                let newList = personas;
                 statsResult.innerHTML = "";
+                console.log(newList);
                 for (let i = 0; i < place.length; i++) {
-                    for (let j = 0; j < personas.length; j++) {
-                        if (personas[j].workplace === place[i].pref) {
+                    for (let j = 0; j < newList.length; j++) {
+                        if (newList[j].workplace === place[i].pref) {
                             place[i].count++;
+                            // countが終わった人をリストから外す
+                            newList.splice(j, 1);
+                            console.log(newList);
                         }
                     }
                     statsResult.insertAdjacentHTML('beforeend', `<br>${place[i].pref}：${place[i].count}人`);
                 }
+                // ↑↓リファクタリング：trueの人をリストから外す→ループが短くなる
             }
             // 世帯の人数
             function houseStat() {
